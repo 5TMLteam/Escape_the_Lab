@@ -13,6 +13,7 @@ public abstract class MovingObject : MonoBehaviour
     private BoxCollider2D boxCollider;  // 움직일 유닛의 BoxCollider2D 컴포넌트
     private Rigidbody2D rb2D;           // 움직일 유닛의 RigidBody2D 컴포넌트
     private float inverseMoveTime;      // 움직임 계산시 연산을 줄이기 위해서 moveTime의 역수를 저장함
+    private bool isMoving;
 
     protected virtual void Start()
     {
@@ -31,7 +32,7 @@ public abstract class MovingObject : MonoBehaviour
         hit = Physics2D.Linecast(start, end, blockingLayer);    // 시작점과 도착점 사이에 BlockingLayer 레이어가 있는지 확인해서 저장
         boxCollider.enabled = true;
 
-        if (hit.transform == null)                              // 이동할 수 있다면
+        if (hit.transform == null && !isMoving)                 // 이동할 수 있다면
         {
             StartCoroutine(SmoothMovement(end));                // 코루틴으로 유닛 이동시키기
             return true;                                        // 이동 성공
@@ -43,7 +44,7 @@ public abstract class MovingObject : MonoBehaviour
     // 유닛을 한 공간에서 end로 이동시키는 코루틴 함수
     protected IEnumerator SmoothMovement(Vector3 end)
     {
-
+        isMoving = true;
         float sqrRemainingDistance = (transform.position - end).sqrMagnitude;   // 이동할 거리 계산(Vector3.sqrMagintude : 벡터 길이의 제곱)
 
         while (sqrRemainingDistance > float.Epsilon)                            // 시작점과 도착점 사이 거리의 제곱이 0보다 클 때
@@ -56,6 +57,8 @@ public abstract class MovingObject : MonoBehaviour
 
             yield return null;                                                  // 다음 프레임에서 루프 실행하기
         }
+        rb2D.MovePosition(end);
+        isMoving = false;
     }
 
     // 이동할 수 있으면 이동하고, 이동할 수 없으면 OnCantMove를 실행하는 함수
