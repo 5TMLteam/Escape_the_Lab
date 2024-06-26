@@ -10,11 +10,9 @@ public class GameManager : MonoBehaviour
     public static GameManager instance = null;          // GameManager를 싱글톤 패턴으로 만들 때 사용할 변수
     public BoardManager boardScript;                    // 스테이지를 만드는 오브젝트
     public float levelStartDelay = 2f;                  // 레벨이 시작되기 전에 초단위로 대기할 시간
-
     // Player용 변수들
     public int playerFoodPoints = 100;                  // 플레이어 포만감
     [HideInInspector] public bool playersTurn = true;   // 
-
     // Enemy용 변수들
     public float turnDelay = 0.1f;                      // 각 턴 사이 대기시간
 
@@ -22,11 +20,13 @@ public class GameManager : MonoBehaviour
     private int level = 1;                      // Enemy가 log(level)만큼 나오므로 level의 시작을 3부터 함
     private List<Enemy> enemies;                // 스테이지의 모든 Enemy 오브젝트들 저장한 변수
     private bool enemiesMoving;                 //
-
     // UI용 변수들
     private Text levelText;                     // 레벨 숫자를 표시할 텍스트 UI
     private GameObject levelImage;              // LevelImage UI의 레퍼런스
     private bool doingSetup;                    // 게임 보드를 만드는 중인지 확인하는 변수
+    private GameObject startButton;             // 시작 버튼 UI
+    private Text startText;                     // 시작 버튼에 들어가는 텍스트 UI
+    private GameObject exitButton;              // 게임 종료 버튼 UI
 
     /* 유니티 API 함수들 */
     void Awake()
@@ -71,9 +71,10 @@ public class GameManager : MonoBehaviour
     static private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
     {
         instance.level++;
+        if (instance.level == 1)
+            instance.playerFoodPoints = 100;
         instance.InitGame();
     }
-
 
     /* private 함수들 */
     // BoardManager를 통해 스테이지를 생성하는 함수
@@ -84,8 +85,14 @@ public class GameManager : MonoBehaviour
         // UI 띄우기
         levelImage = GameObject.Find("LevelImage");
         levelText = GameObject.Find("LevelText").GetComponent<Text>();
+        startButton = GameObject.Find("StartButton");
+        startText = GameObject.Find("StartText").GetComponent<Text>();
+        exitButton = GameObject.Find("ExitButton");
+
         levelText.text = "Day " + level;
         levelImage.SetActive(true);
+        startButton.SetActive(false);
+        exitButton.SetActive(false);
         Invoke("HideLevelImage", levelStartDelay);                      // levelStartDelay만큼 기다리고 다음 레벨 시작
 
         enemies.Clear();
@@ -108,8 +115,13 @@ public class GameManager : MonoBehaviour
     // 게임 오버시 Player에 의해서 호출되어 GameManager를 비활성화시키는 함수
     public void GameOver()
     {
+        startText.text = "RESTART";
         levelText.text = "After " + level + "days, you starved.";   // 게임 오버 텍스트
+
         levelImage.SetActive(true);
+        startButton.SetActive(true);
+        exitButton.SetActive(true);
+
         enabled = false;
     }
 
@@ -129,6 +141,12 @@ public class GameManager : MonoBehaviour
 
         playersTurn = true;
         enemiesMoving = false;
+    }
+    public void RestartGame()
+    {
+        enabled = true;
+        instance.level = 0;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single); // 마지막으로 로드된 Scene을 다시 로드함.
     }
 
 }
