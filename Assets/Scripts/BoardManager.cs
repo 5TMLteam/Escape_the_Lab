@@ -19,7 +19,7 @@ public class BoardManager : MonoBehaviour{
     public int column = 8;
     //8*8
     public Count wallCount = new Count(6,10);
-    public Count foodCount = new Count(1,5);
+    public Count foodCount = new Count(0,2);
     public GameObject exit;
     public GameObject[] floorTiles;
     public GameObject[] wallTiles;
@@ -30,6 +30,7 @@ public class BoardManager : MonoBehaviour{
 
     private Transform boardHolder;//계층 정리용, 모든 오브젝트의 부모
     private List <Vector3> gridPositions =  new List<Vector3>(); //오브젝트  위치 저장
+    private int formerFoodNum = -1;
 
     //gridPositon 초기화
     void InitializeList(){
@@ -116,7 +117,11 @@ public class BoardManager : MonoBehaviour{
         InitializeList();
 
         LayoutObjectAtRandom(wallTiles, wallCount.minimum, wallCount.maximum);
-        LayoutObjectAtRandom(foodTiles, foodCount.minimum, foodCount.maximum);
+        if (formerFoodNum == 0)
+            formerFoodNum = 1;
+        else
+            formerFoodNum = foodCount.minimum;
+        LayoutObjectAtRandom(foodTiles, formerFoodNum, foodCount.maximum);
 
         int enemyCount = (int)Mathf.Log(level, 2f);                     
         LayoutObjectAtRandom(enemyTiles, enemyCount, enemyCount);
