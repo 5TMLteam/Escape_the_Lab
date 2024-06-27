@@ -20,12 +20,13 @@ public class GameManager : MonoBehaviour
     private int level = 1;                      // Enemy가 log(level)만큼 나오므로 level의 시작을 3부터 함
     private List<Enemy> enemies;                // 스테이지의 모든 Enemy 오브젝트들 저장한 변수
     private bool enemiesMoving;                 //
+    private bool isInitialized = false;         // InitGame() 함수가 호출되었는지 확인하는 함수
     // UI용 변수들
     private Text levelText;                     // 레벨 숫자를 표시할 텍스트 UI
     private GameObject levelImage;              // LevelImage UI의 레퍼런스
     private bool doingSetup;                    // 게임 보드를 만드는 중인지 확인하는 변수
-    private GameObject startButton;             // 시작 버튼 UI
-    private Text startText;                     // 시작 버튼에 들어가는 텍스트 UI
+    private GameObject restartButton;           // 시작 버튼 UI
+    private Text restartText;                   // 시작 버튼에 들어가는 텍스트 UI
     private GameObject exitButton;              // 게임 종료 버튼 UI
 
     /* 유니티 API 함수들 */
@@ -40,6 +41,7 @@ public class GameManager : MonoBehaviour
 
         enemies = new List<Enemy>();
         boardScript = GetComponent<BoardManager>();
+        playerFoodPoints = 100;
         InitGame();                                 // 스테이지 생성
     }
 
@@ -70,9 +72,12 @@ public class GameManager : MonoBehaviour
     //This is called each time a scene is loaded.
     static private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
     {
+        if (instance.isInitialized)         // 만약 이미 InitGame()이 실행되었다면
+            return;                             // InitGame() 실행하지 않고 넘어가기
+        if (instance.level == 0)            // 만약 재시작한 것이라면
+            instance.playerFoodPoints = 100;    // 플레이어 체력을 100으로 만들기
+
         instance.level++;
-        if (instance.level == 1)
-            instance.playerFoodPoints = 100;
         instance.InitGame();
     }
 
@@ -85,18 +90,19 @@ public class GameManager : MonoBehaviour
         // UI 띄우기
         levelImage = GameObject.Find("LevelImage");
         levelText = GameObject.Find("LevelText").GetComponent<Text>();
-        startButton = GameObject.Find("StartButton");
-        startText = GameObject.Find("StartText").GetComponent<Text>();
+        restartButton = GameObject.Find("RestartButton");
+        restartText = GameObject.Find("RestartText").GetComponent<Text>();
         exitButton = GameObject.Find("ExitButton");
 
         levelText.text = "Day " + level;
         levelImage.SetActive(true);
-        startButton.SetActive(false);
+        restartButton.SetActive(false);
         exitButton.SetActive(false);
         Invoke("HideLevelImage", levelStartDelay);                      // levelStartDelay만큼 기다리고 다음 레벨 시작
 
         enemies.Clear();
         boardScript.SetupScene(level);
+        isInitialized = true;
     }
 
     // 레벨이 다 로드되면 LevelImage UI 끄는 함수
@@ -115,11 +121,11 @@ public class GameManager : MonoBehaviour
     // 게임 오버시 Player에 의해서 호출되어 GameManager를 비활성화시키는 함수
     public void GameOver()
     {
-        startText.text = "RESTART";
+        restartText.text = "RESTART";
         levelText.text = "After " + level + "days, you starved.";   // 게임 오버 텍스트
 
         levelImage.SetActive(true);
-        startButton.SetActive(true);
+        restartButton.SetActive(true);
         exitButton.SetActive(true);
 
         enabled = false;
@@ -142,9 +148,15 @@ public class GameManager : MonoBehaviour
         playersTurn = true;
         enemiesMoving = false;
     }
+    public void NextLevel()
+    {
+        isInitialized = false;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single); // 마지막으로 로드된 Scene을 다시 로드함.
+    }
     public void RestartGame()
     {
         enabled = true;
+        isInitialized = false;
         instance.level = 0;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single); // 마지막으로 로드된 Scene을 다시 로드함.
     }
