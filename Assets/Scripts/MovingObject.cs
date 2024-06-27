@@ -8,6 +8,7 @@ public abstract class MovingObject : MonoBehaviour
     /* public 변수 */
     public float moveTime = 0.1f;       // 오브젝트가 움직이는 시간 단위
     public LayerMask blockingLayer;     // 움직이는 공간에서 충돌이 일어나는지 체크할 장소
+    public bool canMove;                // Enemy에서 텍스트를 움직이기 위해 public으로 선언함
 
     /* private 변수 */
     private BoxCollider2D boxCollider;  // 움직일 유닛의 BoxCollider2D 컴포넌트
@@ -66,7 +67,7 @@ public abstract class MovingObject : MonoBehaviour
         where T : Component
     {
         RaycastHit2D hit;                                   // 현재 위치에서 (xDir, yDir)만큼 이동할 동안 충돌을 판정
-        bool canMove = Move(xDir, yDir, out hit);           // Move함수의 결과가 hit에도 저장됨
+        canMove = Move(xDir, yDir, out hit);                // Move함수의 결과가 hit에도 저장됨
         if (hit.transform == null)                          // 이동에 성공했을 때(충돌하지 않았을 때)
             return;
 

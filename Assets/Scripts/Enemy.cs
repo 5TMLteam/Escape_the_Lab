@@ -1,6 +1,7 @@
+using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class Enemy : MovingObject
 {
@@ -10,17 +11,24 @@ public class Enemy : MovingObject
     // Enemy가 사용할 오디오 클립들
     public AudioClip enemyAttack1;
     public AudioClip enemyAttack2;
+    public Text skipMoveText;
 
     /* private 변수 */
     private Animator animator;  // 오브젝트의 애니메이터 레퍼런스
     private Transform target;   // Player의 위치
     private bool skipMove;      // Enemy가 턴마다 움직이게 하는 데 쓰이는 변수
+    private Transform canvas;
+    //private Text skipMoveText;
 
     protected override void Start()
     {
         GameManager.instance.AddEnemyToList(this);
         animator = GetComponent<Animator>();
         target = GameObject.FindGameObjectWithTag("Player").transform;
+
+        skipMoveText = Instantiate(skipMoveText, target, transform);                    // skipMove턴을 표시하는 텍스트 생성하기
+        canvas = GameObject.Find("Canvas").GetComponent<Canvas>().transform;
+        skipMoveText.rectTransform.SetParent(canvas);
 
         base.Start();
     }
@@ -31,10 +39,20 @@ public class Enemy : MovingObject
     {
         if (skipMove)
         {
+            skipMoveText.text = "";
             skipMove = false;
             return;
         }
+
         base.AttempMove<T>(xDir, yDir);
+
+        // 다음은 이동 못한다는 표시하기
+        RectTransform text = skipMoveText.rectTransform;
+        Vector2 unit = canvas.position * 2 / 10;
+        text.position = new Vector2((transform.position.x + 1.8f) * unit.x, (transform.position.y + 1.9f) * unit.y);
+        if (base.canMove) // SmoothMove의 이동이 반영이 안되어서 추가
+            text.position = text.position + new Vector3(xDir * unit.x, yDir * unit.y);
+        skipMoveText.text = "...";
 
         skipMove = true;
     }
@@ -51,9 +69,9 @@ public class Enemy : MovingObject
         SoundManager.instance.RandomizeSfx(enemyAttack1, enemyAttack2); // 공격 소리 재생하기
     }
 
-    /* public 함수들 */
-    // GameManager에서 각 Enemy오브젝트마다 실행시키는 함수
-    public void MoveEnemy()
+        /* public 함수들 */
+        // GameManager에서 각 Enemy오브젝트마다 실행시키는 함수
+        public void MoveEnemy()
     {
         int xDir = 0;                                                               // x축 이동
         int yDir = 0;                                                               // y축 이동
