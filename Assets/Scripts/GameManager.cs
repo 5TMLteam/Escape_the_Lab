@@ -148,17 +148,19 @@ public class GameManager : MonoBehaviour
         playersTurn = true;
         enemiesMoving = false;
     }
+    // 다음 레벨로 넘어가는 함수, Player가 호출함
     public void NextLevel()
     {
         isInitialized = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single); // 마지막으로 로드된 Scene을 다시 로드함.
     }
+    // 레벨 1부터 재시작하는 함수
     public void RestartGame()
     {
-        enabled = true;
-        isInitialized = false;
-        instance.level = 0;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single); // 마지막으로 로드된 Scene을 다시 로드함.
+        enabled = true;     // 꺼진 GameManager 오브젝트 다시 활성화
+        instance.level = 0; // 레벨 초기화
+
+        NextLevel();        // Scene 새로 불러오기
     }
 
 }
