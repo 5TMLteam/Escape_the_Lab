@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ButtonController : MonoBehaviour
 {
-    public void OnStartButtonClick()
+    public void OnRestartButtonClick()
     {
         GameManager.instance.RestartGame();
     }

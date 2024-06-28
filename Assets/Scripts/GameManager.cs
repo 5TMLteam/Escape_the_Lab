@@ -24,8 +24,8 @@ public class GameManager : MonoBehaviour
     private Text levelText;                     // 레벨 숫자를 표시할 텍스트 UI
     private GameObject levelImage;              // LevelImage UI의 레퍼런스
     private bool doingSetup;                    // 게임 보드를 만드는 중인지 확인하는 변수
-    private GameObject startButton;             // 시작 버튼 UI
-    private Text startText;                     // 시작 버튼에 들어가는 텍스트 UI
+    private GameObject restartButton;             // 시작 버튼 UI
+    private Text restartText;                     // 시작 버튼에 들어가는 텍스트 UI
     private GameObject exitButton;              // 게임 종료 버튼 UI
 
     /* 유니티 API 함수들 */
@@ -85,13 +85,13 @@ public class GameManager : MonoBehaviour
         // UI 띄우기
         levelImage = GameObject.Find("LevelImage");
         levelText = GameObject.Find("LevelText").GetComponent<Text>();
-        startButton = GameObject.Find("StartButton");
-        startText = GameObject.Find("StartText").GetComponent<Text>();
+        restartButton = GameObject.Find("RestartButton");
+        restartText = GameObject.Find("RestartText").GetComponent<Text>();
         exitButton = GameObject.Find("ExitButton");
 
         levelText.text = "Day " + level;
         levelImage.SetActive(true);
-        startButton.SetActive(false);
+        restartButton.SetActive(false);
         exitButton.SetActive(false);
         Invoke("HideLevelImage", levelStartDelay);                      // levelStartDelay만큼 기다리고 다음 레벨 시작
 
@@ -115,11 +115,11 @@ public class GameManager : MonoBehaviour
     // 게임 오버시 Player에 의해서 호출되어 GameManager를 비활성화시키는 함수
     public void GameOver()
     {
-        startText.text = "RESTART";
+        restartText.text = "RESTART";
         levelText.text = "After " + level + "days, you starved.";   // 게임 오버 텍스트
 
         levelImage.SetActive(true);
-        startButton.SetActive(true);
+        restartButton.SetActive(true);
         exitButton.SetActive(true);
 
         enabled = false;
