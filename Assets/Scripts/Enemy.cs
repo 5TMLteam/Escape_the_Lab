@@ -48,10 +48,10 @@ public class Enemy : MovingObject
 
         // 다음은 이동 못한다는 표시하기
         RectTransform text = skipMoveText.rectTransform;
-        Vector2 unit = canvas.position * 2 / 10;
-        text.position = new Vector2((transform.position.x + 1.8f) * unit.x, (transform.position.y + 1.9f) * unit.y);
+        float unit = canvas.position.y * 2 / 10;
+        text.position = new Vector2((transform.position.x - 3.3f) * unit + canvas.position.x, (transform.position.y + 1.9f) * unit);
         if (base.canMove) // SmoothMove의 이동이 반영이 안되어서 추가
-            text.position = text.position + new Vector3(xDir * unit.x, yDir * unit.y);
+            text.position = text.position + new Vector3(xDir * unit, yDir * unit);
         skipMoveText.text = "...";
 
         skipMove = true;
