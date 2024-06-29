@@ -28,6 +28,8 @@ public class GameManager : MonoBehaviour
     private Text restartText;                     // 시작 버튼에 들어가는 텍스트 UI
     private GameObject exitButton;              // 게임 종료 버튼 UI
 
+    private HashSet<Vector2> occupiedPositions = new HashSet<Vector2>(); // 적들이 현재 점유하고 있는 위치를 추적하는 HashSet
+
     /* 유니티 API 함수들 */
     void Awake()
     {
@@ -125,23 +127,44 @@ public class GameManager : MonoBehaviour
         enabled = false;
     }
 
-    // 모든 Enemy가 한번에 이동하도록 하는 코루틴 함수
+     // 모든 Enemy가 한번에 이동하도록 하는 코루틴 함수
     IEnumerator MoveEnemies()
     {
         enemiesMoving = true;
+        occupiedPositions.Clear();  // 각 턴마다 점유된 위치 초기화
+
         yield return new WaitForSeconds(turnDelay);
         if (enemies.Count == 0)
             yield return new WaitForSeconds(turnDelay);
 
         for (int i = 0; i < enemies.Count; i++)
         {
-            enemies[i].MoveEnemy();
+            // 현재 적의 위치와 다음 이동할 위치 계산
+            Vector2 currentPosition = enemies[i].transform.position;
+            Vector2 newPosition = enemies[i].GetNextMove();
+
+            // 새 위치가 다른 적에 의해 점유되지 않았다면 이동 실행
+            if (!occupiedPositions.Contains(newPosition))
+            {
+                occupiedPositions.Remove(currentPosition);  // 현재 위치에서 제거
+                occupiedPositions.Add(newPosition);         // 새 위치 추가
+                enemies[i].MoveEnemy();                     // 적 이동 실행
+            }
+            // 그렇지 않으면 이동하지 않음 (현재 위치 유지)
+
             yield return new WaitForSeconds(enemies[i].moveTime);
         }
 
         playersTurn = true;
         enemiesMoving = false;
     }
+    
+    // 특정 위치가 적에 의해 점유되었는지 확인하는 메서드
+    public bool IsPositionOccupied(Vector2 position)
+    {
+        return occupiedPositions.Contains(position);
+    }
+
     public void RestartGame()
     {
         enabled = true;
