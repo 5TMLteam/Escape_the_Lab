@@ -98,7 +98,7 @@ public class GameManager : MonoBehaviour
         Invoke("HideLevelImage", levelStartDelay);                      // levelStartDelay만큼 기다리고 다음 레벨 시작
 
         enemies.Clear();
-        boardScript.SetupScene(level);
+        boardScript.SetupScene(level);//
     }
 
     // 레벨이 다 로드되면 LevelImage UI 끄는 함수
