@@ -33,9 +33,25 @@ public class Enemy : MovingObject
         base.Start();
     }
 
+    // 다음 이동할 위치를 계산하는 메서드
+    public Vector2 GetNextMove()
+    {
+        int xDir = 0;
+        int yDir = 0;
+
+        // 플레이어와의 x 좌표 차이가 매우 작으면 y 방향으로 이동
+        if (Mathf.Abs(target.position.x - transform.position.x) < float.Epsilon)
+            yDir = target.position.y > transform.position.y ? 1 : -1;
+        else  // 그렇지 않으면 x 방향으로 이동
+            xDir = target.position.x > transform.position.x ? 1 : -1;
+
+        // 계산된 다음 위치 반환
+        return (Vector2)transform.position + new Vector2(xDir, yDir);
+    }
+
     /* 오버라이딩한 함수들 */
     // 이동할 수 있으면 이동하고, 이동할 수 없으면 OnCantMove를 실행하는 함수
-    protected override void AttempMove<T>(int xDir, int yDir)
+    protected override void AttemptMove<T>(int xDir, int yDir)
     {
         if (skipMove)
         {
@@ -44,7 +60,7 @@ public class Enemy : MovingObject
             return;
         }
 
-        base.AttempMove<T>(xDir, yDir);
+        base.AttemptMove<T>(xDir, yDir);
 
         // 다음은 이동 못한다는 표시하기
         RectTransform text = skipMoveText.rectTransform;
@@ -69,18 +85,22 @@ public class Enemy : MovingObject
         SoundManager.instance.RandomizeSfx(enemyAttack1, enemyAttack2); // 공격 소리 재생하기
     }
 
-        /* public 함수들 */
-        // GameManager에서 각 Enemy오브젝트마다 실행시키는 함수
-        public void MoveEnemy()
+    /* public 함수들 */
+    // GameManager에서 각 Enemy오브젝트마다 실행시키는 함수
+    // 적을 실제로 이동시키는 메서드
+    public void MoveEnemy()
     {
-        int xDir = 0;                                                               // x축 이동
-        int yDir = 0;                                                               // y축 이동
+        int xDir = 0;
+        int yDir = 0;
 
-        if (Mathf.Abs(target.position.x - transform.position.x) < float.Epsilon)    // 만약 target과 나의 x좌표가 같다면
-            yDir = target.position.y > transform.position.y ? 1 : -1;                   // target의 y좌표가 나의 y좌표보다 크면 y축 이동을 1, 아니면 -1로 정하기
-        else                                                                        // 만약 x좌표가 다르다면
-            xDir = target.position.x > transform.position.x ? 1 : -1;                   // target의 x좌표가 나의 x좌표보다 크면 x축 이동을 1, 아니면 -1로 정하기
+        // 플레이어와의 x 좌표 차이가 매우 작으면 y 방향으로 이동
+        if (Mathf.Abs(target.position.x - transform.position.x) < float.Epsilon)
+            yDir = target.position.y > transform.position.y ? 1 : -1;
+        else  // 그렇지 않으면 x 방향으로 이동
+            xDir = target.position.x > transform.position.x ? 1 : -1;
 
-        AttempMove<Player>(xDir, yDir);
+        // 실제 이동 시도
+        AttemptMove<Player>(xDir, yDir);
     }
+
 }
