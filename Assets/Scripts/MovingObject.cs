@@ -63,7 +63,7 @@ public abstract class MovingObject : MonoBehaviour
     }
 
     // 이동할 수 있으면 이동하고, 이동할 수 없으면 OnCantMove를 실행하는 함수
-    protected virtual void AttempMove<T>(int xDir, int yDir)
+    protected virtual void AttemptMove<T>(int xDir, int yDir)
         where T : Component
     {
         RaycastHit2D hit;                                   // 현재 위치에서 (xDir, yDir)만큼 이동할 동안 충돌을 판정
