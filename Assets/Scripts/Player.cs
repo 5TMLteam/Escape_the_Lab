@@ -75,7 +75,7 @@ public class Player : MovingObject
             vertical = 0;                                   // 수직 움직임을 0으로 정하기(대각선으로 움직이지 않게 하기 위함)
 
         if (horizontal != 0 || vertical != 0)               // 만약 움직였다면
-            AttempMove<Wall>(horizontal, vertical);         // 상호작용하는 오브젝트를 Wall로 주어서 이동 시도하기
+            AttemptMove<Wall>(horizontal, vertical);         // 상호작용하는 오브젝트를 Wall로 주어서 이동 시도하기
     }
 
     // Soda, Food, Exit과의 충돌을 확인하는 함수
@@ -115,7 +115,7 @@ public class Player : MovingObject
     }
     /* 오버라이딩한 함수들 */
     // 이동할 수 있으면 이동하고, 이동할 수 없으면 OnCantMove를 실행하는 함수
-    protected override void AttempMove<T>(int xDir, int yDir)
+    protected override void AttemptMove<T>(int xDir, int yDir)
     {
         food--;                         // 1회 이동 시도시 포만감 1 감소
         foodText.text = "Food: " + food;// FoodText UI 최신화
@@ -131,7 +131,7 @@ public class Player : MovingObject
             }
         }
 
-        base.AttempMove<T>(xDir, yDir); // 부모 클래스의 함수 호출
+        base.AttemptMove<T>(xDir, yDir); // 부모 클래스의 함수 호출
 
         RaycastHit2D hit;               // Move함수에서 충돌확인 결과를 가져올 변수
         if (Move(xDir, yDir, out hit))
