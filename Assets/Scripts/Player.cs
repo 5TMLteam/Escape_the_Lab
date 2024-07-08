@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -121,7 +122,7 @@ public class Player : MovingObject
     }
     /* 오버라이딩한 함수들 */
     // 이동할 수 있으면 이동하고, 이동할 수 없으면 OnCantMove를 실행하는 함수
-    protected override void AttemptMove<T>(int xDir, int yDir)
+    protected override bool AttemptMove<T>(int xDir, int yDir)
     {
         food--;                         // 1회 이동 시도시 포만감 1 감소
         foodText.text = "Food: " + food;// FoodText UI 최신화
@@ -137,17 +138,23 @@ public class Player : MovingObject
             }
         }
 
-        base.AttemptMove<T>(xDir, yDir); // 부모 클래스의 함수 호출
+        bool isMovable = base.AttemptMove<T>(xDir, yDir); // 부모 클래스의 함수 호출
 
         RaycastHit2D hit;               // Move함수에서 충돌확인 결과를 가져올 변수
-        if (Move(xDir, yDir, out hit))
+        
+        Debug.Log("isMovable: " + isMovable);
+        if (isMovable)
+        {
+            animator.SetTrigger("playerWalk");
             SoundManager.instance.RandomizeSfx(moveSound1, moveSound2);
+        }
         
         
         CheckIfGameOver();
 
         GameManager.instance.playersTurn = false;
 
+        return isMovable;
     }
 
     // 이동하려는 위치에 상호작용할 수 있는 오브젝트가 있을 때 실행되는 함수

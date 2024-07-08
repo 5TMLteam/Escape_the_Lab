@@ -35,11 +35,15 @@ public abstract class MovingObject : MonoBehaviour
 
         if (hit.transform == null && !isMoving)                 // 이동할 수 있다면
         {
+            Debug.Log("true");
             StartCoroutine(SmoothMovement(end));                // 코루틴으로 유닛 이동시키기
             return true;                                        // 이동 성공
         }
         else
+        {
+            Debug.Log("false");
             return false;                                       // 이동 실패
+        }
     }
 
     // 유닛을 한 공간에서 end로 이동시키는 코루틴 함수
@@ -63,17 +67,18 @@ public abstract class MovingObject : MonoBehaviour
     }
 
     // 이동할 수 있으면 이동하고, 이동할 수 없으면 OnCantMove를 실행하는 함수
-    protected virtual void AttemptMove<T>(int xDir, int yDir)
+    protected virtual bool AttemptMove<T>(int xDir, int yDir)
         where T : Component
     {
         RaycastHit2D hit;                                   // 현재 위치에서 (xDir, yDir)만큼 이동할 동안 충돌을 판정
         canMove = Move(xDir, yDir, out hit);                // Move함수의 결과가 hit에도 저장됨
         if (hit.transform == null)                          // 이동에 성공했을 때(충돌하지 않았을 때)
-            return;
+            return true;
 
         T hitComponent = hit.transform.GetComponent<T>();
         if (!canMove && hitComponent != null)               // 이동할 수 없고, 이동하려는 위치에 상호작용할 수 있는 오브젝트가 있을 때
             OnCantMove<T>(hitComponent);
+        return false;
     }
 
     // 이동하려는 위치에 상호작용할 수 있는 오브젝트가 있을 때 실행되는 추상 함수

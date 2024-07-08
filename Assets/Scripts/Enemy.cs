@@ -51,13 +51,13 @@ public class Enemy : MovingObject
 
     /* 오버라이딩한 함수들 */
     // 이동할 수 있으면 이동하고, 이동할 수 없으면 OnCantMove를 실행하는 함수
-    protected override void AttemptMove<T>(int xDir, int yDir)
+    protected override bool AttemptMove<T>(int xDir, int yDir)
     {
         if (skipMove)
         {
             skipMoveText.text = "";
             skipMove = false;
-            return;
+            return false;
         }
 
         base.AttemptMove<T>(xDir, yDir);
@@ -71,6 +71,7 @@ public class Enemy : MovingObject
         skipMoveText.text = "...";
 
         skipMove = true;
+        return true;
     }
 
     // 이동하려는 위치에 상호작용할 수 있는 오브젝트(Player)가 있을 때 실행되는 함수
