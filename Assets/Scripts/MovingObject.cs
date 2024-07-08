@@ -35,15 +35,11 @@ public abstract class MovingObject : MonoBehaviour
 
         if (hit.transform == null && !isMoving)                 // 이동할 수 있다면
         {
-            Debug.Log("true");
             StartCoroutine(SmoothMovement(end));                // 코루틴으로 유닛 이동시키기
             return true;                                        // 이동 성공
         }
         else
-        {
-            Debug.Log("false");
             return false;                                       // 이동 실패
-        }
     }
 
     // 유닛을 한 공간에서 end로 이동시키는 코루틴 함수
