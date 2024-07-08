@@ -1,12 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+public struct Score
+{
+    public int level;
+    public string name;
+}
+
+
 public class GameManager : MonoBehaviour
 {
+    public static List<Score> scores = null;
+
     /* public 변수 */
+    public List<int> testScores;
     public static GameManager instance = null;          // GameManager를 싱글톤 패턴으로 만들 때 사용할 변수
     public BoardManager boardScript;                    // 스테이지를 만드는 오브젝트
     public float levelStartDelay = 2f;                  // 레벨이 시작되기 전에 초단위로 대기할 시간
@@ -17,7 +28,7 @@ public class GameManager : MonoBehaviour
     public float turnDelay = 0.1f;                      // 각 턴 사이 대기시간
 
     /* private 변수 */
-    private int level = 1;                      // Enemy가 log(level)만큼 나오므로 level의 시작을 3부터 함
+    private int level = 0;                      // 
     private List<Enemy> enemies;                // 스테이지의 모든 Enemy 오브젝트들 저장한 변수
     private bool enemiesMoving;                 //
     private bool isInitialized = false;         // InitGame() 함수가 호출되었는지 확인하는 함수
@@ -42,7 +53,11 @@ public class GameManager : MonoBehaviour
         enemies = new List<Enemy>();
         boardScript = GetComponent<BoardManager>();
         playerFoodPoints = 100;
-        InitGame();                                 // 스테이지 생성
+        if (SceneManager.GetActiveScene().name == "MainScene")      // TitleScene을 거치지 않고 실행한다면
+        {
+            instance.level = 1;
+            InitGame();                                             // 스테이지 생성
+        }
     }
 
     /*// 새 레벨이 로드될 때마다 InitGame 함수 호출하는 함수
@@ -129,6 +144,12 @@ public class GameManager : MonoBehaviour
         exitButton.SetActive(true);
 
         enabled = false;
+
+        scores.Add(level);
+        scores.Sort();
+        if (scores.Count > 5)
+            scores.RemoveAt(0);
+        testScores = scores;
     }
 
     // 모든 Enemy가 한번에 이동하도록 하는 코루틴 함수

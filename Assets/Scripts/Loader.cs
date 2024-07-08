@@ -8,6 +8,10 @@ public class Loader : MonoBehaviour
     void Awake()
     {
         if (GameManager.instance == null)
+        {
             Instantiate(gameManager);
+        }
+        if (GameManager.scores == null)
+            GameManager.scores = new List<Score>();
     }
 }
