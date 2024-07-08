@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -124,32 +125,31 @@ public class Player : MovingObject
     // 이동할 수 있으면 이동하고, 이동할 수 없으면 OnCantMove를 실행하는 함수
     protected override bool AttemptMove<T>(int xDir, int yDir)
     {
-        food--;                         // 1회 이동 시도시 포만감 1 감소
-        foodText.text = "Food: " + food;// FoodText UI 최신화
+        food--;                                                         // 1회 이동 시도시 포만감 1 감소
+        foodText.text = "Food: " + food;                                // FoodText UI 최신화
 
         if (isPoisoned)
         {
-            food += pointsPerPoison;  // 독 효과로 인한 추가 포만감 감소
+            food += pointsPerPoison;                                    // 독 효과로 인한 추가 포만감 감소
             foodText.text = pointsPerPoison + " Food: " + food;
             poisonedMovesLeft--;
             if (poisonedMovesLeft <= 0)
             {
-                RemovePoisonEffect();  // 독 효과 종료
+                RemovePoisonEffect();                                   // 독 효과 종료
             }
         }
 
-        bool isMovable = base.AttemptMove<T>(xDir, yDir); // 부모 클래스의 함수 호출
-
-        RaycastHit2D hit;               // Move함수에서 충돌확인 결과를 가져올 변수
-        
-        Debug.Log("isMovable: " + isMovable);
+        // 이동시 애니메이션
+        bool isMovable = base.AttemptMove<T>(xDir, yDir);               // 부모 클래스의 함수 호출
         if (isMovable)
-        {
-            animator.SetTrigger("playerWalk");
-            SoundManager.instance.RandomizeSfx(moveSound1, moveSound2);
-        }
-        
-        
+            animator.SetTrigger("playerWalk");                          
+
+        // Wall을 부쉈을 때는 바로 이동하고 소리 재생하기
+        RaycastHit2D hit;                                               // Move함수에서 충돌확인 결과를 가져올 변수
+        if (Move(xDir, yDir, out hit))                                  // 이동 가능 여부 확인하고 이동하기
+            SoundManager.instance.RandomizeSfx(moveSound1, moveSound2); // 이동 했으면 소리 재생하기
+
+
         CheckIfGameOver();
 
         GameManager.instance.playersTurn = false;
