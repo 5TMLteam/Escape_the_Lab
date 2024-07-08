@@ -5,6 +5,7 @@ using UnityEngine;
 public class Wall : MonoBehaviour
 {
     public Sprite dmgSprite;
+    public Sprite dmgSprite2;
     public int hp = 3;
     public int recoverAmount = 5;  // È¸º¹·®
 
@@ -19,7 +20,10 @@ public class Wall : MonoBehaviour
 
     public void DamageWall(int loss)
     {
-        spriteRenderer.sprite = dmgSprite;
+        if (spriteRenderer.sprite != dmgSprite)
+            spriteRenderer.sprite = dmgSprite;
+        else
+            spriteRenderer.sprite = dmgSprite2;
         hp -= loss;
         if (hp <= 0)
         {
