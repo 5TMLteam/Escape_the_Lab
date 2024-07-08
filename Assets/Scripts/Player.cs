@@ -62,13 +62,19 @@ public class Player : MovingObject
         //horizontal = (int)Input.GetAxisRaw("Horizontal");
         //vertical = (int)Input.GetAxisRaw("Vertical");
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
+        {
             horizontal = -1;
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
+            spriteRenderer.flipX = true;
+        }
+        else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+        {
             horizontal = 1;
-        else if (Input.GetKeyDown(KeyCode.UpArrow))
+            spriteRenderer.flipX = false;
+        }
+        else if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
             vertical = 1;
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
             vertical = -1;
 
         if (horizontal != 0)                                // 만약 수평으로 움직였다면
