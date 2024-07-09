@@ -15,8 +15,8 @@ public class BoardManager : MonoBehaviour{
         }
     }
     
-    public int row =8;
-    public int column = 8;
+    public int row =7;
+    public int column = 7;
     //8*8
     public Count wallCount = new Count(6,10);
     public Count foodCount = new Count(0,2);
@@ -26,6 +26,9 @@ public class BoardManager : MonoBehaviour{
     public GameObject[] enemyTiles;
     public GameObject[] foodTiles;
     public GameObject[] outerWallTiles;
+    public GameObject[] outerWallVert;
+    public GameObject[] outerWallHorz;
+    public GameObject[] outerWallEdgeTiles_new;
     public GameObject[] poisonTiles;
 
     private Transform boardHolder;//계층 정리용, 모든 오브젝트의 부모
@@ -44,18 +47,40 @@ public class BoardManager : MonoBehaviour{
 
     //Floor, outerwall 생성 
     void BoardSetup(){
-        boardHolder = new GameObject ("Board").transform;
-        for(int x=-1; x<column+1; x++){
+        boardHolder = new GameObject ("Board").transform;                                       // 모든 배경 Object의 부모로 둘 오브젝트
 
-            for(int y=-1; y<row + 1; y++){
-                GameObject toInstantiate = floorTiles[Random.Range (0,floorTiles.Length)];
-                if (x == -1 || x==column || y==-1 || y == row)
-                    toInstantiate = outerWallTiles[Random.Range (0,outerWallTiles.Length)];
-                GameObject instance = Instantiate(toInstantiate, new Vector3(x, y, 0f), Quaternion.identity);
-                instance.transform.SetParent(boardHolder);
+        // Floor 생성하기
+        for (int x = -1; x < column + 1; x++)
+        {
+            for (int y = -1; y < row + 1; y++)
+            {
+                GameObject toInstantiate = floorTiles[Random.Range(0, floorTiles.Length)];
+                //if (x == -1 || x == column || y == -1 || y == row)
+                //  toInstantiate = outerWallTiles[Random.Range (0,outerWallTiles.Length)];
+                createInstance(toInstantiate, new Vector3(x, y, 1f));
             }
         }
+
+        // 가장자리 벽 생성하기
+        createInstance(outerWallEdgeTiles_new[3], new Vector3(-1, -1, 0f));
+        createInstance(outerWallEdgeTiles_new[2], new Vector3(column, -1, 0f));
+        createInstance(outerWallEdgeTiles_new[1], new Vector3(column, row, 0f));
+        createInstance(outerWallEdgeTiles_new[0], new Vector3(-1, row, 0f));
+
+        // 벽 생성하기
+        for (int i = 1; i < column / 3; i++)
+        {
+            createInstance(outerWallVert[Random.Range(0, outerWallVert.Length)], new Vector3(-1, i * 3, 0f));
+            createInstance(outerWallVert[Random.Range(0, outerWallVert.Length)], new Vector3(column, i * 3, 0f));
+            createInstance(outerWallHorz[Random.Range(0, outerWallHorz.Length)], new Vector3(i * 3, -1, 0f));
+            createInstance(outerWallHorz[Random.Range(0, outerWallHorz.Length)], new Vector3(i * 3, column, 0f));
+        }
     }
+    void createInstance(GameObject toInstantiate, Vector3 position){
+        GameObject instance = Instantiate(toInstantiate, position, Quaternion.identity);
+        instance.transform.SetParent(boardHolder);
+    }
+
 
         // 랜덤 위치
         Vector3 RandomPosition(){
@@ -82,13 +107,13 @@ public class BoardManager : MonoBehaviour{
         List<Vector3> poisonPositions = new List<Vector3>();
 
         // 7x7 영역의 외곽 좌표를 리스트에 추가
-        for (int x = -1; x < 7; x++)
+        for (int x = 0; x < column; x++)
         {
-            for (int y = -1; y < 7; y++)
+            for (int y = 0; y < row; y++)
             {
-                if (x == -1 || x == 6 || y == -1 || y == 6)
+                if (x == 0 || x == column - 1 || y == 0 || y == row - 1)
                 {
-                    Vector3 potentialPosition = new Vector3(x + 1, y + 1, 0f);
+                    Vector3 potentialPosition = new Vector3(x, y, 0f);
                     // 시작, 출구 위치를 제외
                     if (potentialPosition != new Vector3(column - 1, row - 1, 0f) && potentialPosition != new Vector3(0, 0, 0f) )
                     {
