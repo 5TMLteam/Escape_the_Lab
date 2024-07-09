@@ -4,6 +4,7 @@ using UnityEngine;
 using System;                                           // DateTime 클래스를 사용하기 위함
 using System.IO;                                        // FileStream 클래스를 사용하기 위함
 using System.Runtime.Serialization.Formatters.Binary;   // BinaryFormatter 클래스를 사용하기 위함 
+using UnityEngine.UI;
 
 [System.Serializable]
 public struct Score
@@ -22,7 +23,7 @@ public class ScoreManager : MonoBehaviour
     public static List<Score> scores = null;
 
     // 점수를 저장하는 함수
-    public static void LoadScores()
+    public void LoadScores()
     {
         scores = new List<Score>();
         for (int i = 0; i < 5; i++)
@@ -39,7 +40,7 @@ public class ScoreManager : MonoBehaviour
         }
     }
 
-    public static void SaveScores()
+    public void SaveScores()
     {
         for (int i = 0; i < scores.Count; i++)
         {
@@ -50,9 +51,9 @@ public class ScoreManager : MonoBehaviour
         }
     }
 
-    public static void AddScore(int level)
+    public void AddScore(int level)
     {
-        Score new_score = new Score(level, DateTime.Now.ToString());
+        Score new_score = new Score(level, DateTime.Now.ToString("yyyy.MM.dd HH:mm"));
         scores.Add(new_score);
         scores.Sort((Score a, Score b) =>
         {
@@ -66,5 +67,7 @@ public class ScoreManager : MonoBehaviour
         );
         if (scores.Count > 5)
             scores.RemoveAt(0);
+
+        SaveScores();
     }
 }

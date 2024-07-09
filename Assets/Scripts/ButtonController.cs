@@ -12,7 +12,6 @@ public class ButtonController : MonoBehaviour
     }
     public void OnExitButtonClick()
     {
-        ScoreManager.SaveScores();
         Application.Quit();
     }
 
@@ -24,6 +23,11 @@ public class ButtonController : MonoBehaviour
 
     public void OnScoreButtonClick()
     {
+        TitleController.instance.ShowScoreboard();
+    }
 
+    public void OnScore2MenuButtonClick()
+    {
+        TitleController.instance.HideScoreboard();
     }
 }

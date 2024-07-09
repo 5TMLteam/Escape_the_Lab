@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance = null;          // GameManager를 싱글톤 패턴으로 만들 때 사용할 변수
     public BoardManager boardScript;                    // 스테이지를 만드는 오브젝트
     public UIManager uiManager;                         // UI 담당하는 클래스
+    public ScoreManager scoreManager;                   // 점수를 담당하는 클래스
     public float levelStartDelay = 2f;                  // 레벨이 시작되기 전에 초단위로 대기할 시간
     // Player용 변수들
     public int playerFoodPoints = 100;                  // 플레이어 포만감
@@ -33,13 +34,15 @@ public class GameManager : MonoBehaviour
             instance = this;
         else if (instance != this)
             Destroy(gameObject);
-        DontDestroyOnLoad(gameObject);              // 다음 Scene으로 넘어가도 GameManager가 삭제되지 않게 하기
-
-        ScoreManager.LoadScores();                               // scores 변수에 이전 점수 저장하기
+        DontDestroyOnLoad(gameObject);                              // 다음 Scene으로 넘어가도 GameManager가 삭제되지 않게 하기
 
         enemies = new List<Enemy>();
         boardScript = GetComponent<BoardManager>();
         uiManager = GetComponent<UIManager>();
+        scoreManager = GetComponent<ScoreManager>();
+
+        scoreManager.LoadScores();                                  // scores 변수에 이전 점수 저장하기
+
         playerFoodPoints = 100;
         if (SceneManager.GetActiveScene().name == "MainScene")      // TitleScene을 거치지 않고 실행한다면
         {
@@ -117,7 +120,7 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         uiManager.ShowGameOver(level);
-        ScoreManager.AddScore(level);
+        scoreManager.AddScore(level);
 
         enabled = false;
     }
