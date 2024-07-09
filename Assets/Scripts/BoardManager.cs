@@ -82,6 +82,7 @@ public class BoardManager : MonoBehaviour{
         createInstance(outerWallHorz[top], new Vector3(2, -1, 0f));
         createInstance(outerWallHorz[top], new Vector3(2, row, 0f));
 
+        // 파이프 몸통 생성하기
         for (int i = 3; i < column - 3; i++)
         {
             createInstance(outerWallVert[Random.Range(1, outerWallVert.Length-1)], new Vector3(-1, i, 0f));
