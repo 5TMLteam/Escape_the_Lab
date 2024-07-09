@@ -61,19 +61,33 @@ public class BoardManager : MonoBehaviour{
             }
         }
 
-        // 가장자리 벽 생성하기
+        // 가장자리 파이프 생성하기
         createInstance(outerWallEdgeTiles_new[3], new Vector3(-1, -1, 0f));
         createInstance(outerWallEdgeTiles_new[2], new Vector3(column, -1, 0f));
         createInstance(outerWallEdgeTiles_new[1], new Vector3(column, row, 0f));
         createInstance(outerWallEdgeTiles_new[0], new Vector3(-1, row, 0f));
 
-        // 벽 생성하기
-        for (int i = 1; i < column / 3; i++)
+
+        // 파이프 입구 생성하기
+        // 세로
+        int top = 0, bottom = outerWallVert.Length - 1;
+        createInstance(outerWallVert[top], new Vector3(-1, row - 3, 0f));
+        createInstance(outerWallVert[top], new Vector3(column, row - 3, 0f));
+        createInstance(outerWallVert[bottom], new Vector3(-1, 2, 0f));
+        createInstance(outerWallVert[bottom], new Vector3(column, 2, 0f));
+        // 가로
+        top = 0; bottom = outerWallHorz.Length - 1;
+        createInstance(outerWallHorz[bottom], new Vector3(column - 3, -1, 0f));
+        createInstance(outerWallHorz[bottom], new Vector3(column - 3, row, 0f));
+        createInstance(outerWallHorz[top], new Vector3(2, -1, 0f));
+        createInstance(outerWallHorz[top], new Vector3(2, row, 0f));
+
+        for (int i = 3; i < column - 3; i++)
         {
-            createInstance(outerWallVert[Random.Range(0, outerWallVert.Length)], new Vector3(-1, i * 3, 0f));
-            createInstance(outerWallVert[Random.Range(0, outerWallVert.Length)], new Vector3(column, i * 3, 0f));
-            createInstance(outerWallHorz[Random.Range(0, outerWallHorz.Length)], new Vector3(i * 3, -1, 0f));
-            createInstance(outerWallHorz[Random.Range(0, outerWallHorz.Length)], new Vector3(i * 3, column, 0f));
+            createInstance(outerWallVert[Random.Range(1, outerWallVert.Length-1)], new Vector3(-1, i, 0f));
+            createInstance(outerWallVert[Random.Range(1, outerWallVert.Length-1)], new Vector3(column, i, 0f));
+            createInstance(outerWallHorz[Random.Range(1, outerWallHorz.Length-1)], new Vector3(i, -1, 0f));
+            createInstance(outerWallHorz[Random.Range(1, outerWallHorz.Length-1)], new Vector3(i, column, 0f));
         }
     }
     void createInstance(GameObject toInstantiate, Vector3 position){
