@@ -169,8 +169,6 @@ public class Player : MovingObject
             SoundManager.instance.PlaySingle(gameOverSound);
             SoundManager.instance.musicSource.Stop();
 
-            Debug.Log("GameOver");
-
             enabled = false;
             GameManager.instance.GameOver();
         }

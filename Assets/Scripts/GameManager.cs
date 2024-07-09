@@ -5,19 +5,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public struct Score
-{
-    public int level;
-    public string name;
-}
-
 
 public class GameManager : MonoBehaviour
 {
-    public static List<Score> scores = null;
-
     /* public 변수 */
-    public List<int> testScores;
     public static GameManager instance = null;          // GameManager를 싱글톤 패턴으로 만들 때 사용할 변수
     public BoardManager boardScript;                    // 스테이지를 만드는 오브젝트
     public float levelStartDelay = 2f;                  // 레벨이 시작되기 전에 초단위로 대기할 시간
@@ -49,6 +40,8 @@ public class GameManager : MonoBehaviour
         else if (instance != this)
             Destroy(gameObject);
         DontDestroyOnLoad(gameObject);              // 다음 Scene으로 넘어가도 GameManager가 삭제되지 않게 하기
+
+        ScoreController.LoadScores();                               // scores 변수에 이전 점수 저장하기
 
         enemies = new List<Enemy>();
         boardScript = GetComponent<BoardManager>();
@@ -126,7 +119,7 @@ public class GameManager : MonoBehaviour
         levelImage.SetActive(false);
         doingSetup = false;
     }
-    
+
     /* public 함수들 */
     // 각 Enemy 오브젝트가 자신을 매개변수로 호출하여 enemies 리스트에 넣는 함수
     public void AddEnemyToList(Enemy script)
@@ -145,11 +138,7 @@ public class GameManager : MonoBehaviour
 
         enabled = false;
 
-        scores.Add(level);
-        scores.Sort();
-        if (scores.Count > 5)
-            scores.RemoveAt(0);
-        testScores = scores;
+        ScoreController.AddScore(level);
     }
 
     // 모든 Enemy가 한번에 이동하도록 하는 코루틴 함수

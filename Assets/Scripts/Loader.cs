@@ -11,7 +11,5 @@ public class Loader : MonoBehaviour
         {
             Instantiate(gameManager);
         }
-        if (GameManager.scores == null)
-            GameManager.scores = new List<Score>();
     }
 }
