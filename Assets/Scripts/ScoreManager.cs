@@ -17,7 +17,7 @@ public struct Score
     }
 }
 
-public class ScoreController : MonoBehaviour
+public class ScoreManager : MonoBehaviour
 {
     public static List<Score> scores = null;
 
@@ -66,7 +66,5 @@ public class ScoreController : MonoBehaviour
         );
         if (scores.Count > 5)
             scores.RemoveAt(0);
-
-        SaveScores();
     }
 }

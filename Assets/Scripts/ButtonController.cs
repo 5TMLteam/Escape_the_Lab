@@ -12,7 +12,7 @@ public class ButtonController : MonoBehaviour
     }
     public void OnExitButtonClick()
     {
-        ScoreController.SaveScores();
+        ScoreManager.SaveScores();
         Application.Quit();
     }
 

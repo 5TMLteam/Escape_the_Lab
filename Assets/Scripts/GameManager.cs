@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         DontDestroyOnLoad(gameObject);              // 다음 Scene으로 넘어가도 GameManager가 삭제되지 않게 하기
 
-        ScoreController.LoadScores();                               // scores 변수에 이전 점수 저장하기
+        ScoreManager.LoadScores();                               // scores 변수에 이전 점수 저장하기
 
         enemies = new List<Enemy>();
         boardScript = GetComponent<BoardManager>();
@@ -138,7 +138,7 @@ public class GameManager : MonoBehaviour
 
         enabled = false;
 
-        ScoreController.AddScore(level);
+        ScoreManager.AddScore(level);
     }
 
     // 모든 Enemy가 한번에 이동하도록 하는 코루틴 함수
