@@ -172,7 +172,7 @@ public class Player : MovingObject
     {
         //Application.LoadLevel(Application.loadedLevel); 
         // 위 코드는 버전 문제로 실행이 안되어서 아래 코드로 대체함
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single); // 마지막으로 로드된 Scene을 다시 로드함.
+        GameManager.instance.NextLevel();
     }
 
     private void CheckIfGameOver()
@@ -182,6 +182,7 @@ public class Player : MovingObject
             SoundManager.instance.PlaySingle(gameOverSound);
             SoundManager.instance.musicSource.Stop();
 
+            enabled = false;
             GameManager.instance.GameOver();
         }
     }
