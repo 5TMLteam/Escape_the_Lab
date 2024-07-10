@@ -21,7 +21,7 @@ public class UIManager : MonoBehaviour
         restartText = GameObject.Find("RestartText").GetComponent<Text>();
         exitButton = GameObject.Find("ExitButton");
 
-        levelText.text = "Day " + level;
+        levelText.text = "Floor " + level;
         levelImage.SetActive(true);
         restartButton.SetActive(false);
         exitButton.SetActive(false);
@@ -35,7 +35,7 @@ public class UIManager : MonoBehaviour
     public void ShowGameOver(int level)
     {
         restartText.text = "RESTART";
-        levelText.text = "After " + level + "days, you starved.";   // 게임 오버 텍스트
+        levelText.text = "After " + level + "floors, you failed.";   // 게임 오버 텍스트
 
         levelImage.SetActive(true);
         restartButton.SetActive(true);

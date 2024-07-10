@@ -44,7 +44,7 @@ public class Player : MovingObject
         originalColor = spriteRenderer.color;
         food = GameManager.instance.playerFoodPoints;
 
-        foodText.text = "Food: " + food;
+        foodText.text = "HP: " + food;
 
         base.Start();                                   // 부모 클래스의 Start함수 호출
     }
@@ -103,13 +103,13 @@ public class Player : MovingObject
             if (other.tag == "Food")
             {                                                                   // 만약 Food와 충돌했다면
                 food += pointsPerFood;                                          // Player 포만감 증가
-                foodText.text = "+" + pointsPerFood + "Food: " + food;          // FoodText UI 최신화
+                foodText.text = "+" + pointsPerFood + "HP: " + food;          // FoodText UI 최신화
                 SoundManager.instance.RandomizeSfx(eatSound1, eatSound2);       // 먹는 소리 재생
             }
             else if (other.tag == "Soda")
             {                                                                   // 만약 Soda와 충돌했다면
                 food += pointsPerSoda;                                          // Player 포만감 증가
-                foodText.text = "+" + pointsPerSoda + "Food: " + food;          // FoodText UI 최신화
+                foodText.text = "+" + pointsPerSoda + "HP: " + food;          // FoodText UI 최신화
                 SoundManager.instance.RandomizeSfx(drinkSound1, drinkSound2);   // 마시는 소리 재생
             }
             
@@ -126,12 +126,12 @@ public class Player : MovingObject
     protected override bool AttemptMove<T>(int xDir, int yDir)
     {
         food--;                                                         // 1회 이동 시도시 포만감 1 감소
-        foodText.text = "Food: " + food;                                // FoodText UI 최신화
+        foodText.text = "HP: " + food;                                // FoodText UI 최신화
 
         if (isPoisoned)
         {
             food += pointsPerPoison;                                    // 독 효과로 인한 추가 포만감 감소
-            foodText.text = pointsPerPoison + " Food: " + food;
+            foodText.text = pointsPerPoison + " HP: " + food;
             poisonedMovesLeft--;
             if (poisonedMovesLeft <= 0)
             {
@@ -193,7 +193,7 @@ public class Player : MovingObject
     {
         animator.SetTrigger("playerHit");               // PlayerHit 애니메이션 실행시키기
         food -= loss;                                   // loss만큼 food 감수
-        foodText.text = "-" + loss + "Food: " + food;   // FoodText UI 최신화
+        foodText.text = "-" + loss + "HP: " + food;   // FoodText UI 최신화
 
         CheckIfGameOver();
 
@@ -203,7 +203,7 @@ public class Player : MovingObject
     public void RecoverHealth(int amount)
     {
         food += amount;
-        foodText.text = "+" + amount + " Food: " + food; // 체력 회복 UI에 표시
+        foodText.text = "+" + amount + " HP: " + food; // 체력 회복 UI에 표시
     }
 
     // 독 효과를 적용하는 함수
@@ -215,7 +215,7 @@ public class Player : MovingObject
     
         // 독을 밟았을 때 즉시 체력 감소
         food += pointsPerPoison;
-        foodText.text = pointsPerPoison + " Food: " + food;
+        foodText.text = pointsPerPoison + " HP: " + food;
         CheckIfGameOver();
     }
 

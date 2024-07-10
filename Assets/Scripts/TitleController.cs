@@ -59,7 +59,9 @@ public class TitleController : MonoBehaviour
             rectTransform.anchorMin = pivot;
             rectTransform.anchoredPosition = Vector2.zero;
 
-            text.text = "" + (i+1) + "\t\t" + ScoreManager.scores[i].level + "Days\t\t" + ScoreManager.scores[i].name;
+            int index = ScoreManager.scores.Count - 1 - i;
+            //text.text = "" + (i+1) + "\t\t" + ScoreManager.scores[index].level + "Floors\t\t" + ScoreManager.scores[index].name;
+            text.text = $"{i+1, -8}{ScoreManager.scores[index].level + "Floors", -12}{ScoreManager.scores[index].name}";
         }
     }
 
