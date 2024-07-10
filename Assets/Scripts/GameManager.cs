@@ -4,7 +4,6 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-
 public class GameManager : MonoBehaviour
 {
     /* public º¯¼ö */
@@ -122,6 +121,10 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         uiManager.ShowGameOver(level);
+        foreach (Enemy enemy in enemies)
+        {
+            enemy.skipMoveText.enabled = false;
+        }
         scoreManager.AddScore(level);
 
         enabled = false;
