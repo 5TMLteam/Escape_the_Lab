@@ -10,9 +10,9 @@ public class Player : MovingObject
 {
     /* public 변수 */
     public int wallDamage = 1;              // 1회 공격당 Wall에 가하는 데미지
-    public int pointsPerFood = 5;          // 음식을 먹었을 때 오르는 포만감
-    public int pointsPerSoda = 10;          // 소다를 먹었을 때 오르는 포만감
-    public int pointsPerPoison = -4;        // 독에 중독되었을 때 감소하는 포만감
+    public int pointsPerFood = 9;          // 음식을 먹었을 때 오르는 포만감
+    public int pointsPerSoda = 13;          // 소다를 먹었을 때 오르는 포만감
+    public int pointsPerPoison = -3;        // 독에 중독되었을 때 감소하는 포만감
 
     public float restartLevelDelay = 1f;    // 다음 스테이지로 넘어가는 지연 시간
     public Text foodText;                   // FoodText의 레퍼런스 저장하는 변수
