@@ -1,22 +1,22 @@
 fileFormatVersion: 2
-guid: 5c168f5842eda93428bb677c9bf3ddae
+guid: a81abd508e8e562428fcaa5b8792c218
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3916506008749198922
-    second: Enemy1Attack_0
+      213: -8731669750802031197
+    second: Enemy2Attack_0
   - first:
-      213: 3760700823771695840
-    second: Enemy1Attack_1
+      213: -6616377661586427122
+    second: Enemy2Attack_1
   - first:
-      213: 5358021443783472882
-    second: Enemy1Attack_2
+      213: 2173925721692397697
+    second: Enemy2Attack_2
   - first:
-      213: 20861379053198840
-    second: Enemy1Attack_3
+      213: 7549596535646569350
+    second: Enemy2Attack_3
   - first:
-      213: -2044652068404681921
-    second: Enemy1Attack_4
+      213: -3849854543661249573
+    second: Enemy2Attack_4
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -63,7 +63,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 383
+  spritePixelsToUnits: 418
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -125,13 +125,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Enemy1Attack_0
+      name: Enemy2Attack_0
       rect:
         serializedVersion: 2
-        x: 209
+        x: 153
         y: 104
-        width: 213
-        height: 383
+        width: 269
+        height: 418
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -139,20 +139,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6b132db1986c5a9c0800000000000000
-      internalID: -3916506008749198922
+      spriteID: 3addb6fbf90e2d680800000000000000
+      internalID: -8731669750802031197
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy1Attack_1
+      name: Enemy2Attack_1
       rect:
         serializedVersion: 2
-        x: 849
+        x: 793
         y: 104
-        width: 213
-        height: 383
+        width: 269
+        height: 418
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -160,20 +160,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0ea4e636971b03430800000000000000
-      internalID: 3760700823771695840
+      spriteID: e03bf456297ed24a0800000000000000
+      internalID: -6616377661586427122
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy1Attack_2
+      name: Enemy2Attack_2
       rect:
         serializedVersion: 2
-        x: 1489
+        x: 1433
         y: 104
-        width: 218
-        height: 383
+        width: 269
+        height: 418
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -181,20 +181,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2f6b3a77d148b5a40800000000000000
-      internalID: 5358021443783472882
+      spriteID: 1806f890de55b2e10800000000000000
+      internalID: 2173925721692397697
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy1Attack_3
+      name: Enemy2Attack_3
       rect:
         serializedVersion: 2
-        x: 2129
+        x: 2073
         y: 104
-        width: 213
-        height: 383
+        width: 269
+        height: 418
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -202,20 +202,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8fd9dff405d1a4000800000000000000
-      internalID: 20861379053198840
+      spriteID: 683cbb8bc0e85c860800000000000000
+      internalID: 7549596535646569350
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy1Attack_4
+      name: Enemy2Attack_4
       rect:
         serializedVersion: 2
-        x: 2769
+        x: 2713
         y: 104
-        width: 213
-        height: 383
+        width: 269
+        height: 418
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -223,8 +223,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f33a87dd6cfef93e0800000000000000
-      internalID: -2044652068404681921
+      spriteID: bdbc520a0b1929ac0800000000000000
+      internalID: -3849854543661249573
       vertices: []
       indices: 
       edges: []
@@ -240,11 +240,11 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Enemy1Attack_0: -3916506008749198922
-      Enemy1Attack_1: 3760700823771695840
-      Enemy1Attack_2: 5358021443783472882
-      Enemy1Attack_3: 20861379053198840
-      Enemy1Attack_4: -2044652068404681921
+      Enemy2Attack_0: -8731669750802031197
+      Enemy2Attack_1: -6616377661586427122
+      Enemy2Attack_2: 2173925721692397697
+      Enemy2Attack_3: 7549596535646569350
+      Enemy2Attack_4: -3849854543661249573
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
