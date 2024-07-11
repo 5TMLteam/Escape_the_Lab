@@ -45,10 +45,10 @@ public class UIManager : MonoBehaviour
 
         RectTransform rectTransform;
         rectTransform = restartButton.GetComponent<RectTransform>();            // 재시작 버튼 위치 이동
-        rectTransform.anchoredPosition = Vector3.zero;
+        rectTransform.anchoredPosition = new Vector3(0f, 60f, 0f);
 
         rectTransform = exitButton.GetComponent<RectTransform>();               // 종료 버튼 위치 이동
-        rectTransform.anchoredPosition = new Vector3(0f, 60f, 0f);
+        rectTransform.anchoredPosition = Vector3.zero;
 
         levelImage.SetActive(true);
         restartButton.SetActive(true);
