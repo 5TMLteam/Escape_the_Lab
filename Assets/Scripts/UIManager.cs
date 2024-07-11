@@ -13,8 +13,9 @@ public class UIManager : MonoBehaviour
     private Text restartText;                   // 시작 버튼에 들어가는 텍스트 UI
     private GameObject exitButton;              // 게임 종료 버튼 UI
     private GameObject gameoverImage;           // 게임종료시 이미지
+    private GameObject pauseImage;              // 일시 정지 시 이미지
     
-    public void InitUI(int level)
+    public void InitMainUI(int level)
     {
         levelImage = GameObject.Find("LevelImage");
         levelText = GameObject.Find("LevelText").GetComponent<Text>();
@@ -22,12 +23,14 @@ public class UIManager : MonoBehaviour
         restartText = GameObject.Find("RestartText").GetComponent<Text>();
         exitButton = GameObject.Find("ExitButton");
         gameoverImage = GameObject.Find("GameoverImage");
+        pauseImage = GameObject.Find("PauseImage");
 
         levelText.text = "Floor " + level;
         levelImage.SetActive(true);
         restartButton.SetActive(false);
         exitButton.SetActive(false);
         gameoverImage.SetActive(false);
+        pauseImage.SetActive(false);
     }
 
     public void HideLevelImage()
@@ -55,4 +58,18 @@ public class UIManager : MonoBehaviour
         exitButton.SetActive(true);
     }
 
+    // 이미 Pause되어 있으면 true, 아니면 false를 반환하고 PauseImage를 끄고 킴
+    public bool IsPaused()
+    {
+        if (pauseImage.activeSelf == false)
+        {
+            pauseImage.SetActive(true);
+            return false;
+        }
+        else
+        {
+            pauseImage.SetActive(false);
+            return true;
+        }
+    }
 }

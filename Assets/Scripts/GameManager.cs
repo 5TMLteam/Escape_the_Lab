@@ -95,7 +95,7 @@ public class GameManager : MonoBehaviour
         doingSetup = true;                                              // 플레이어가 맵 로드될 동안 못 움직이게 하기
 
         // UI 띄우기
-        uiManager.InitUI(level);
+        uiManager.InitMainUI(level);
         Invoke("HideLevelImage", levelStartDelay);                      // levelStartDelay만큼 기다리고 다음 레벨 시작
 
         enemies.Clear();
@@ -184,4 +184,17 @@ public class GameManager : MonoBehaviour
         NextLevel();        // Scene 새로 불러오기
     }
 
+    public void Pause()
+    {
+        if (uiManager.IsPaused())
+        {
+            enabled = true;
+            Time.timeScale = 1;
+        }
+        else
+        {  
+            enabled = false;
+            Time.timeScale = 0;
+        }
+    }
 }

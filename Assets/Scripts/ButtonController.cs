@@ -15,6 +15,11 @@ public class ButtonController : MonoBehaviour
         Application.Quit();
     }
 
+    public void OnResumeButtonClick()
+    {
+        GameManager.instance.Pause();
+    }
+
     /* TitleScene 버튼용 함수들 */
     public void OnStartButtonClick()
     {

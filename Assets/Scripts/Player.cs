@@ -57,7 +57,13 @@ public class Player : MovingObject
 
     void Update()
     {
-        if (!GameManager.instance.playersTurn) return;
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            //GameManager.instance.uiManager.IsPaused();
+            GameManager.instance.Pause();
+            return;
+        }
+        if (!GameManager.instance.playersTurn || !GameManager.instance.enabled) return;
 
         int horizontal = 0;
         int vertical = 0;
@@ -78,6 +84,8 @@ public class Player : MovingObject
             vertical = 1;
         else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
             vertical = -1;
+        
+
 
         if (horizontal != 0)                                // 만약 수평으로 움직였다면
             vertical = 0;                                   // 수직 움직임을 0으로 정하기(대각선으로 움직이지 않게 하기 위함)
