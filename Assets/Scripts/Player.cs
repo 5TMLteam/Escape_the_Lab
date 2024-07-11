@@ -103,13 +103,13 @@ public class Player : MovingObject
             if (other.tag == "Food")
             {                                                                   // 만약 Food와 충돌했다면
                 food += pointsPerFood;                                          // Player 포만감 증가
-                foodText.text = "+" + pointsPerFood + "HP: " + food;          // FoodText UI 최신화
+                foodText.text = "+" + pointsPerFood + " HP: " + food;          // FoodText UI 최신화
                 SoundManager.instance.RandomizeSfx(eatSound1, eatSound2);       // 먹는 소리 재생
             }
             else if (other.tag == "Soda")
             {                                                                   // 만약 Soda와 충돌했다면
                 food += pointsPerSoda;                                          // Player 포만감 증가
-                foodText.text = "+" + pointsPerSoda + "HP: " + food;          // FoodText UI 최신화
+                foodText.text = "+" + pointsPerSoda + " HP: " + food;          // FoodText UI 최신화
                 SoundManager.instance.RandomizeSfx(drinkSound1, drinkSound2);   // 마시는 소리 재생
             }
             
@@ -193,7 +193,7 @@ public class Player : MovingObject
     {
         animator.SetTrigger("playerHit");               // PlayerHit 애니메이션 실행시키기
         food -= loss;                                   // loss만큼 food 감수
-        foodText.text = "-" + loss + "HP: " + food;   // FoodText UI 최신화
+        foodText.text = "-" + loss + " HP: " + food;   // FoodText UI 최신화
 
         CheckIfGameOver();
 
