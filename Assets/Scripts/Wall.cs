@@ -29,8 +29,8 @@ public class Wall : MonoBehaviour
         {
             gameObject.SetActive(false);
 
-            // 50% 확률로 체력 회복
-            if (Random.value < 0.5f)
+            // 60% 확률로 체력 회복
+            if (Random.value < 0.6f)
             {
                 player.RecoverHealth(recoverAmount);
             }
