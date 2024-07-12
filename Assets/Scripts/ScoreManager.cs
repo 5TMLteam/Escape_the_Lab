@@ -28,9 +28,9 @@ public class ScoreManager : MonoBehaviour
         scores = new List<Score>();
         for (int i = 0; i < 5; i++)
         {
-            if (File.Exists(Application.dataPath + "/Datas/score" + i + ".dat"))
+            if (File.Exists(Application.streamingAssetsPath + "/Datas/score" + i + ".dat"))
             {
-                FileStream file = new FileStream(Application.dataPath + "/Datas/score" + i + ".dat", FileMode.Open);
+                FileStream file = new FileStream(Application.streamingAssetsPath + "/Datas/score" + i + ".dat", FileMode.Open);
                 BinaryFormatter binaryFormatter = new BinaryFormatter();
                 scores.Add((Score)binaryFormatter.Deserialize(file));
                 file.Close();
@@ -44,7 +44,7 @@ public class ScoreManager : MonoBehaviour
     {
         for (int i = 0; i < scores.Count; i++)
         {
-            FileStream file = new FileStream(Application.dataPath + "/Datas/score" + i + ".dat", FileMode.Create);
+            FileStream file = new FileStream(Application.streamingAssetsPath + "/Datas/score" + i + ".dat", FileMode.Create);
             BinaryFormatter binaryFormatter = new BinaryFormatter();
             binaryFormatter.Serialize(file, scores[i]);
             file.Close();
