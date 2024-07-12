@@ -93,7 +93,7 @@ public class GameManager : MonoBehaviour
     void InitGame()
     {
         doingSetup = true;                                              // 플레이어가 맵 로드될 동안 못 움직이게 하기
-
+        Time.timeScale = 1;
         // UI 띄우기
         uiManager.InitMainUI(level);
         Invoke("HideLevelImage", levelStartDelay);                      // levelStartDelay만큼 기다리고 다음 레벨 시작
